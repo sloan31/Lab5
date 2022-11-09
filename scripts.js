@@ -8,12 +8,31 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/256/{z}/{x}/{y}?access_
 }).addTo(map);
 
 
+L.Control.textbox = L.Control.extend({
+		onAdd: function(map) {
+
+		var text = L.DomUtil.create('div');
+		text.id = "info_text";
+		text.innerHTML = "<strong> Begin by clicking anywhere on the map. A pop up box will appear. From here pick your desired start and end location. </strong>"
+		return text;
+		},
+
+		onRemove: function(map) {
+			// Nothing to do here
+		}
+	});
+
+	L.control.textbox = function(opts) {
+     return new L.Control.textbox(opts);
+   }
+	L.control.textbox({ position: 'bottomleft' }).addTo(map);
 
 var control = L.Routing.control({
         waypoints: [
+          null
+        //
+        // L.latLng(47.246587, -122.438830),
 
-        L.latLng(47.246587, -122.438830),
-      
     ],
      routeWhileDragging: true,
      router: L.Routing.mapbox('pk.eyJ1Ijoic2xvYW5tb29yZTMxIiwiYSI6ImNsYTM1anB5NzAxMmczb3BqcGlpMW9xeTYifQ.YwqRi3XLnVSFNFDmYvg9dw'),
@@ -53,9 +72,6 @@ L.DomEvent.on(destBtn, 'click', function() {
        map.closePopup();
 });
 
-// L.marker([47.306542, -122.511691]).addTo(map)
-//     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-//     .openPopup();
 
 
 });
